@@ -181,47 +181,85 @@ Solve these problems yourself.  You may find it helpful to solve them on paper b
 up in Lean. -/
 
 
+-- Example 1.3.11
 example {x y : ℝ} (h1 : x = 3) (h2 : y = 4 * x - 3) : y = 9 :=
   calc
     y = y := by ring
     _ = y := by ring
 
+    _ = 4 * x - 3 := by rw[h2]
+    _ = 4 * 3 - 3 := by rw[h1]
+    _ = 12 - 3 := by ring
+    _ = 9 := by ring
 
+-- Example 1.3.12
 example {a b : ℤ} (h : a - b = 0) : a = b :=
   calc
     a = a := by ring
     _ = a := by ring
 
+    _ = a - b + b:= by ring
+    _ = 0 + b:= by rw[h]
+    _ = b:= by ring
 
+-- Example 1.3.13
 example {x y : ℤ} (h1 : x - 3 * y = 5) (h2 : y = 3) : x = 14 :=
   calc
     x = x := by ring
     _ = x := by ring
 
+    _ = x - 3*y + 3*y := by ring
+    _ = 5       + 3*y := by rw[h1]
+    _ = 5       + 3*3 := by rw[h2]
+    _ = 5       + 9 := by ring
+    _ = 14 := by ring
 
 
+
+-- Example 1.3.14
 example {p q : ℚ} (h1 : p - 2 * q = 1) (h2 : q = -1) : p = -1 :=
   calc
     p = p := by ring
     _ = p := by ring
 
+    _ = p - 2*q + 2*q := by ring
+    _ = 1 + 2*q := by rw[h1]
+    _ = 1 + 2*(-1) := by rw[h2]
+    _ = -1 := by ring
 
 
+
+-- Example 1.3.15
 example {x y : ℚ} (h1 : y + 1 = 3) (h2 : x + 2 * y = 3) : x = -1 :=
   calc
     x = x := by ring
     _ = x := by ring
 
+    _ = x + 2*y -2*y := by ring
+    _ = 3       -2*y := by rw[h2]
+    _ = 3       -2*(y + 1 -1) := by ring
+    _ = 3       -2*(3 -1) := by rw[h1]
+    _ = 3       -2*2 := by ring
+    _ = -1 := by ring
 
 
-
+-- Example 1.3.16
 example {p q : ℤ} (h1 : p + 4 * q = 1) (h2 : q - 1 = 2) : p = -11 :=
   calc
     p = p := by ring
     _ = p := by ring
 
+    _ = p + 4*q -4*q := by ring
+    _ = 1 -4*q := by rw[h1]
+    _ = 1 -4*(q-1 +1) := by ring
+    _ = 1 -4*(2 +1) := by rw[h2]
+    _ = 1 -4*3 := by ring
+    _ = 1 -12 := by ring
+    _ = -11 := by ring
 
 
+
+-- Example 1.3.17     3 steps
 --                       x* (1a 2b  3c)             y *(1b 2c)
 example {a b c : ℝ} (h1 : a + 2 * b + 3 * c = 7) (h2 : b + 2 * c = 3)
     (h3 : c = 1) : a = 2 :=
@@ -229,57 +267,109 @@ example {a b c : ℝ} (h1 : a + 2 * b + 3 * c = 7) (h2 : b + 2 * c = 3)
     a = a := by ring
     _ = a := by ring
 
+    _ = a + 2*b - 2*b + 3*c - 3*c := by ring
+    _ = (a + 2*b + 3*c) - 2*b - 3*c := by ring
+    _ = (7) - 2*b - 3*c := by rw[h1]
+    _ = 7 - 2*b - 3*c - c + c := by ring
+    _ = 7 - 2*b - 4*c + c := by ring
+    _ = 7 - 2*(b + 2*c) + c := by ring
+    _ = 7 - 2*(3) + 1 := by rw[h2, h3]
+    _ = 7 - 6 + 1 := by ring
+    _ = 2 := by ring
 
 
 
+
+-- Example 1.3.18 MULTIPLICATION
 example {u v : ℚ} (h1 : 4 * u + v = 3) (h2 : v = 2) : u = 1 / 4 :=
   calc
     u = u := by ring
     _ = u := by ring
 
+    _ = 4*u/4 := by ring
+    _ = (4*u + v - v)/4 := by ring
+    _ = (3 - 2)/4 := by rw[h1,h2]
+    _ = 1/4 := by ring
 
 
+-- Example 1.3.19
 example {c : ℚ} (h1 : 4 * c + 1 = 3 * c - 2) : c = -3 :=
   calc
     c = c := by ring
     _ = c := by ring
 
+    _ = c + 3*c -3*c + 1 -1 := by ring
+    _ = (4*c +1) -3*c -1 := by ring
+    _ = (3*c -2) -3*c -1 := by rw[h1]
+    _ = 3*c -3*c -1 -2 := by ring
+    _ = -3 := by ring
+
+-- Example 1.3.20
 example {p : ℝ} (h1 : 5 * p - 3 = 3 * p + 1) : p = 2 :=
   calc
     p = p := by ring
     _ = p := by ring
 
+    _ = (2*p)/2 := by ring
+    _ = (2*p + 3*p -3*p -3 + 3)/2 := by ring
+    _ = (5*p -3 -3*p + 3)/2 := by ring
+    _ = (3*p +1 -3*p + 3)/2 := by rw[h1]
+    _ = (4)/2 := by ring
+    _ = 2 := by ring
+
+-- Example 1.3.21
 example {x y : ℤ} (h1 : 2 * x + y = 4) (h2 : x + y = 1) : x = 3 :=
   calc
     x = x := by ring
     _ = x := by ring
 
+    _ = x + x - x + y - y := by ring
+    _ = 2*x + y -(x + y) := by ring
+    _ = 4 -(1) := by rw[h1,h2]
+    _ = 3 := by ring
+
+-- Example 1.3.22
+--                      1     2               2  2
 example {a b : ℝ} (h1 : a + 2 * b = 4) (h2 : a - b = 1) : a = 2 :=
   calc
     a = a := by ring
     _ = a := by ring
 
+    -- _ = a + a -a := by ring
+    -- _ = 2*a -a +2*b -2*b:= by ring
+    -- _ = -a +2*b   + 2*a-2*b:= by ring
 
+    -- _ = -a -2*b   + 2*a + 2*b:= by ring
+
+
+    _ = (2*a)/2 + 2*b -2*b := by ring
+    _ = (a)/2 + a/2 := by ring
+    _ = (a + b -b)/2 + a/2 := by ring
+    _ = (a + b -b)/2 + a/2 := by rw[h1]
+
+
+
+-- Example 1.3.23
 example {u v : ℝ} (h1 : u + 1 = v) : u ^ 2 + 3 * u + 1  =  v ^ 2 + v - 1 :=
   calc
     u ^ 2 + 3 * u + 1 = u ^ 2 + 3 * u + 1 := by ring
     _ = u ^ 2 + 3 * u + 1 := by ring
 
 
-
+-- Example 1.3.24
 example {t : ℚ} (ht : t^2 - 4 = 0) :
     t ^ 4 + 3 * t ^ 3 - 3 * t ^ 2 - 2 * t - 2  =  10 * t + 2 :=
   calc
     t^4 + 3*t^3 - 3*t^2 - 2*t - 2 = t^4 + 3*t^3 - 3*t^2 - 2*t - 2 := by ring
     _ = t^4 + 3*t^3 - 3*t^2 - 2*t - 2 := by ring
 
-
+-- Example 1.3.25
 example {x y : ℝ} (h1 : x + 3 = 5) (h2 : 2 * x - y * x = 0) : y = 2 :=
   calc
     y = y := by ring
     _ = y := by ring
 
-
+-- Example 1.3.26
 example {p q r : ℚ} (h1 : p + q + r = 0) (h2 : p * q + p * r + q * r = 2) :
     p ^ 2 + q ^ 2 + r ^ 2 = -4 :=
   calc
