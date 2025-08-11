@@ -6,7 +6,8 @@ math2001_init
 
 /-! # Section 1.3: Tips and tricks
 
-Exercise: choose some of these examples and type out the whole proofs printed in the text as Lean
+Exercise: choose some of these examples and type out
+the whole proofs printed in the text as Lean
 proofs. -/
 
 
@@ -28,6 +29,10 @@ example {x : ℤ} (h1 : x + 4 = 2) : x = -2 :=
     x = x := by ring
     _ = x := by ring -- nothing so far
 
+    _ = x + 4 -4 := by ring
+    _ = 2 -4 := by rw[h1]
+    _ = -2 := by ring
+
 
 -- Example 1.3.3
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 :=
@@ -35,7 +40,15 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 :=
     a = a := by ring
     _ = a := by ring -- nothing so far
 
-  --  _ = a := by ring
+    _ = a -5*b +5*b := by ring
+    _ = 4 +5*b := by rw[h1]
+    _ = 4 +5*b := by ring
+    _ = 4 +5*b +5*2 -5*2 := by ring
+    _ = 4 +5*(b + 2) -5*2 := by ring
+    _ = 4 +5*(3) -5*2 := by rw[h2]
+    _ = 4 +15 -10 := by ring
+    _ = 4 +5 := by ring
+    _ = 9 := by ring
 
 
 
@@ -44,15 +57,15 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 :=
 example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 :=
   calc
     w = w := by ring
-    _ = w := by ring ---- nothing so far
+    _ = w := by ring -- nothing so far
 
-
+    _ = w := by ring
 
 -- Example 1.3.5
 example {x : ℤ} (h1 : 2 * x + 3 = x) : x = -3 :=
   calc
     x = x := by ring
-    _ = x := by ring-- nothing so far
+    _ = x := by ring -- nothing so far
 
 
 
