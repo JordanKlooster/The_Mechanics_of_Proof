@@ -68,17 +68,37 @@ example {r s : ℝ} (h1 : s = 3) (h2 : r + 2 * s = -1) : r = -7 :=
 
 -- -- Example 1.2.3
 -- -- Exercise: replace the words "sorry" with the correct Lean justification.
--- example {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :
---     (2 * a * n + b * m) ^ 2 = 2 :=
---   calc
+example {a b m n : ℤ} (h1 : a * m + b * n = 1) (h2 : b ^ 2 = 2 * a ^ 2) :
+    (2 * a * n + b * m) ^ 2 = 2 :=
+  calc
+        (2 * a * n + b * m) ^ 2 = (2 * a * n + b * m) ^ 2 := by ring
+    _ = (2 * a * n + b * m) ^ 2 := by ring -- did nothing so far
+
+    _ = 2 * (a*m + b*n) ^ 2 + (m^2 - 2*n^2) * (b^2 - 2*a^2) := by ring --??? this is where exaple solution started
+    _ = 2 * 1 ^ 2 + (m ^ 2 - 2 * n ^ 2) * (2 * a ^ 2 - 2 * a ^ 2) := by rw[h1, h2]
+    _ = 2 := by ring
+
+    -- -- MY UNFINISHED ATTEMPT
+    -- _ = (2*a*n + b*m) * (2*a*n + b*m) := by ring
+    -- _ = (2*a*n * 2*a*n) + (2*a*n * b*m) + (2*a*n * b*m) + (b*m * b*m) := by ring
+    -- _ = (2*a*n * 2*a*n) + 2*(2*a*n*b*m)            + (b*m * b*m) := by ring
+    -- _ = (2*a*n * 2*a*n) + 4*(a*n*b*m)              + (b*m * b*m) := by ring
+    -- _ = 4*a*a*n*n       + 4*(a*n*b*m)              + (b*b*m*m) := by ring
 
 -- -- Example 1.2.4.
 -- -- Exercise: type out the whole proof printed in the text as a Lean proof.
--- example {a b c d e f : ℤ} (h1 : a * d = b * c) (h2 : c * f = d * e) :
---     d * (a * f - b * e) = 0 :=
---     calc
+example {a b c d e f : ℤ} (h1 : a * d = b * c) (h2 : c * f = d * e) :
+    d * (a * f - b * e) = 0 :=
+    calc
+      d * (a * f - b * e) = d * (a * f - b * e) := by ring
+      _ = d * (a * f - b * e) := by ring -- did nothing so far
 
-
+      _ = d*a*f - d*b*e := by ring
+      _ = a*d*f - b*d*e := by ring
+      _ = (a*d)*f - b*(d*e) := by ring
+      _ = (b*c)*f - b*(c*f) := by rw[h1,h2]
+      _ = b*c*f - b*c*f := by ring
+      _ = 0 := by ring -- this was my own solution -jk
 
 
 
