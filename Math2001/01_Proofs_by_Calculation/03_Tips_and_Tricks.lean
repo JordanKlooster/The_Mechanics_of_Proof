@@ -34,7 +34,7 @@ example {x : ℤ} (h1 : x + 4 = 2) : x = -2 :=
     _ = -2 := by ring
 
 
--- Example 1.3.3
+-- Example 1.3.3 --
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 :=
   calc
     a = a := by ring
@@ -67,19 +67,30 @@ example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 :=
     _ = (3)/3 := by ring
     _ = 1 := by ring
 
--- Example 1.3.5
+-- Example 1.3.5 -- ALSO WORKS FOR ALGEBRAAIC EQUATIONS
 example {x : ℤ} (h1 : 2 * x + 3 = x) : x = -3 :=
   calc
     x = x := by ring
     _ = x := by ring -- nothing so far
 
+    _ = x   + x -x  +3 -3 := by ring
+    _ = x + x + 3    -x -3 := by ring
+    _ = (2*x + 3)    -x -3 := by ring
+    _ = x    -x -3 := by rw[h1]
+    _ = -3 := by ring
 
 
--- Example 1.3.6
+
+-- Example 1.3.6 -- SIMULTANIOUS Equations
 example {x y : ℤ} (h1 : 2 * x - y = 4) (h2 : y - x + 1 = 2) : x = 5 :=
   calc
     x = x := by ring
     _ = x := by ring
+
+    _ = x +x -x  -y +y + 1 -1 := by ring
+    _ = (2*x-y)    +(y -x + 1) -1 := by ring
+    _ = 4           +2         -1 := by rw[h1,h2]
+    _ = 5 := by ring
 
 
 
@@ -90,23 +101,39 @@ example {u v : ℚ} (h1 : u + 2 * v = 4) (h2 : u - 2 * v = 6) : u = 5 :=
     u = u := by ring
     _ = u := by ring
 
+    _ = 2*u/2 := by ring
+    _ = u/2 + u/2 := by ring
+    _ = u/2 + u/2  +2*v/2 -2*v/2 := by ring
+    _ = (u + 2*v)/2 + (u - 2*v)/2 := by ring
+    _ = 4/2         + 6/2 := by rw[h1,h2]
+    _ = 5 := by ring
 
 
--- Example 1.3.8
+
+
+-- Example 1.3.8  -- 6x/6   4y/4      12x/12  or 7x/7 or 8x/8
 example {x y : ℝ} (h1 : x + y = 4) (h2 : 5 * x - 3 * y = 4) : x = 2 :=
   calc
-    -- x = (3*(x + y) + 5*x-3*y) / 8 := by ring -- one step
     x = x := by ring
     _ = x := by ring
 
+    _ = 8*x/8 := by ring
+    _ = (3*x)/8 + (5*x)/8 := by ring
+    _ = (3*x)/8 + (5*x)/8 + 3*y/8 -3*y/8 := by ring
+    _ = (3*x + 3*y)/8 + (5*x -3*y)/8 := by ring
+    _ = (3*(x + y))/8 + (5*x -3*y)/8 := by ring
+    _ = (3*(4))/8 + (4)/8 := by rw[h1,h2]
+    _ = 12/8 + 4/8 := by ring
+    _ = 16/8 := by ring
+    _ = 2 := by ring
 
-    -- x = (x + y) - y := by ring     -- early attempts
-    -- x = (5 * x - 3 * y) + 3*y - 4*x := by ring
 
 -- Example 1.3.9
 example {a b : ℚ} (h1 : a - 3 = 2 * b) : a ^ 2 - a + 3 = 4 * b ^ 2 + 10 * b + 9 :=
   calc
     a^2 - a + 3 = a^2 - a + 3 := by ring
+    _ = a^2 - a + 3  := by ring
+
     _ = a^2 - a + 3  := by ring
 
 
