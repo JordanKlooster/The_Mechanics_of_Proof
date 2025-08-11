@@ -41,11 +41,11 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 :=
     _ = a := by ring -- nothing so far
 
     _ = a -5*b +5*b := by ring
-    _ = 4 +5*b := by rw[h1]
+    _ = 4 +5*b := by rw[h1] -- match h1
     _ = 4 +5*b := by ring
     _ = 4 +5*b +5*2 -5*2 := by ring
     _ = 4 +5*(b + 2) -5*2 := by ring
-    _ = 4 +5*(3) -5*2 := by rw[h2]
+    _ = 4 +5*(3) -5*2 := by rw[h2] -- match h2
     _ = 4 +15 -10 := by ring
     _ = 4 +5 := by ring
     _ = 9 := by ring
@@ -53,13 +53,19 @@ example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 :=
 
 
 
--- Example 1.3.4
+-- Example 1.3.4 -- MULTIPLICATION TOO
 example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 :=
   calc
     w = w := by ring
     _ = w := by ring -- nothing so far
 
-    _ = w := by ring
+    _ = (3 * w)/3 := by ring
+    _ = (3 * w)/3 + 1/3 -1/3:= by ring
+    _ = (3 * w + 1)/3   -1/3:= by ring
+    _ = (4)/3   -1/3:= by rw[h1]
+    _ = (4-1)/3 := by ring
+    _ = (3)/3 := by ring
+    _ = 1 := by ring
 
 -- Example 1.3.5
 example {x : ℤ} (h1 : 2 * x + 3 = x) : x = -3 :=
