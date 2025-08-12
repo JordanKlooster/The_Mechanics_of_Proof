@@ -341,11 +341,20 @@ example {a b : ℝ} (h1 : a + 2 * b = 4) (h2 : a - b = 1) : a = 2 :=
 
     -- _ = -a -2*b   + 2*a + 2*b:= by ring
 
+    _ = (3*a)/3 := by ring
+    _ = (2*a + a -2*b +2*b)/3 := by ring
+    _ = (2*a -2*b  + a +2*b)/3 := by ring
+    _ = (2*(a -b)  + (a +2*b))/3 := by ring
+    _ = (2*(1)  + 4)/3 := by rw[h2,h1]
+    _ = (6)/3 := by ring
+    _ = 2 := by ring
 
-    _ = (2*a)/2 + 2*b -2*b := by ring
-    _ = (a)/2 + a/2 := by ring
-    _ = (a + b -b)/2 + a/2 := by ring
-    _ = (a + b -b)/2 + a/2 := by rw[h1]
+
+    -- _ = (2*a)/2 + 2*b -2*b := by ring
+    -- _ = (a)/2 + a/2 := by ring
+    -- _ = (a + 2*b -2*b)/2 + a/2 := by ring
+    -- _ = (4 -2*b)/2 + a/2 := by rw[h1]
+    -- _ = 4/2 -2*b/2 + a/2 := by ring
 
 
 
@@ -355,6 +364,17 @@ example {u v : ℝ} (h1 : u + 1 = v) : u ^ 2 + 3 * u + 1  =  v ^ 2 + v - 1 :=
     u ^ 2 + 3 * u + 1 = u ^ 2 + 3 * u + 1 := by ring
     _ = u ^ 2 + 3 * u + 1 := by ring
 
+    --goal: v ^ 2 + v - 1
+
+    -- (u + 1)^2 == (u+1)(u+1)
+    -- == u^2 + u + u + 1
+
+    _ = u^2 + 2*u + 1 + u := by ring
+    _ = (u+1)^2       + u := by ring
+    _ = (u+1)^2     + (u +1) -1 := by ring
+    _ = v^2     + v -1 := by rw[h1]
+
+
 
 -- Example 1.3.24
 example {t : ℚ} (ht : t^2 - 4 = 0) :
@@ -363,11 +383,66 @@ example {t : ℚ} (ht : t^2 - 4 = 0) :
     t^4 + 3*t^3 - 3*t^2 - 2*t - 2 = t^4 + 3*t^3 - 3*t^2 - 2*t - 2 := by ring
     _ = t^4 + 3*t^3 - 3*t^2 - 2*t - 2 := by ring
 
--- Example 1.3.25
+    --goal: 10 * t + 2
+
+    -- 0 * (something) + 10t + 2
+
+    _ = t^4 + 3*t^3 - 3*t^2 - 2*t - 2 := by ring
+    _ = t^4 + 3*t^3 - 3*t^2 - 2*t - 2 - 10*t + 10*t - 2 + 2 := by ring
+    _ = t^4 + 3*t^3 - 3*t^2 - 12*t - 4    + 10*t + 2 := by ring
+-- (t^2 - 4) (t^2 + 3t +1) == t^4 -4t^2         +3t^3 -12t   + t^2 - 4
+-- (t^2 - 4) (t^2 + 3t +1) == t^4 -4t^2 + t^2   +3t^3 -12t         - 4
+-- (t^2 - 4) (t^2 + 3t +1) == t^4 -3t^2         +3t^3 -12t         - 4
+    _ = (t^2 - 4) * (t^2 + 3*t +1)    + 10*t + 2 := by ring
+    _ = (0) * (t^2 + 3*t +1)    + 10*t + 2 := by rw[ht]
+    _ = 0                       + 10*t + 2 := by ring
+    _ = 10*t + 2 := by ring
+
+    -- _ = t^4 + 3*t^3 - 3*t^2 - 12*t - 4    + 10*t + 2 := by ring
+
+
+
+
+-- Example 1.3.25     --x = 2               2*2  - y *2 = 0
 example {x y : ℝ} (h1 : x + 3 = 5) (h2 : 2 * x - y * x = 0) : y = 2 :=
   calc
     y = y := by ring
     _ = y := by ring
+
+    -- _ = y + (2 * x - y * x) - (2 * x - y * x) := by ring
+    -- -- _ = y + (0) - (2 * x - y * x) := by rw[h2]
+    -- _ = y + (2 * x - y * x) - (0) := by rw[h2]
+    -- _ = y + 2*(x +3 -3) - y * (x + 3 -3) := by ring
+    -- _ = y + 2*(5 -3) - y * (5 -3) := by rw[h1]
+    -- _ = y + 2*(2) - y*2 := by ring
+
+
+
+    _ = y + (2 * x - y * x)/2 - (2 * x - y * x)/2 := by ring
+    _ = y + (2 * x - y * x)/2 - (0)/2 := by rw[h2]
+    _ = y + 2*(x +3 -3)/2 - y * (x + 3 -3)/2 := by ring
+    _ = y + 2*(5 -3)/2 - y * (5 -3)/2 := by rw[h1]
+    _ = y + 2*(2)/2 - y := by ring
+    _ = 2 := by ring
+
+    -- _ = y*x/x  := by ring
+
+    -- _ = y*1  := by ring
+    -- _ = y*5/5  := by ring
+    -- -- -- _ = y*x+3/5  := by rw[<- h1] -- gives error
+    -- _ = y*(x+3)/5  := by rw[<- h1] -- works
+    -- _ = (y*x + y*3)/5  := by ring
+    -- _ = y*x/5 + y*3/5  := by ring
+
+    -- _ = y*x/x  := by ring
+    -- _ = y*x/x -2*x/x +2  := by ring
+    -- _ = y*x/x -2*x/x +2*x/x  := by ring
+
+    -- _ = y + (0)  := by ring
+    -- _ = y + 2*x - y * x  := by rw[<- h2]
+    -- _ = y + 2*x - y * x  := by ring
+
+    -- _ = y  := by ring
 
 -- Example 1.3.26
 example {p q r : ℚ} (h1 : p + q + r = 0) (h2 : p * q + p * r + q * r = 2) :
