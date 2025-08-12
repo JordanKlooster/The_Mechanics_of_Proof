@@ -444,14 +444,24 @@ example {x y : ℝ} (h1 : x + 3 = 5) (h2 : 2 * x - y * x = 0) : y = 2 :=
 
     -- _ = y  := by ring
 
--- Example 1.3.26
+-- Example 1.3.26 --JK: difference of squares a^2 – b^2 = (a + b) (a – b)
 example {p q r : ℚ} (h1 : p + q + r = 0) (h2 : p * q + p * r + q * r = 2) :
     p ^ 2 + q ^ 2 + r ^ 2 = -4 :=
   calc
     p^2 + q^2 + r^2 = p^2 + q^2 + r^2 := by ring
     _ = p^2 + q^2 + r^2 := by ring
 
+    -- _ = p^2 + q^2 + r^2 + (p * q + p * r + q * r) - (p * q + p * r + q * r) := by ring
 
+
+    -- (p + q + r)(whatever) = 0 * (whatever)
+      -- (p + q + r)(p + q + r) = p^2 + pq + pr    + pq + q^2 + qr   + pr +qr +r^2
+      -- (p + q + r)(p + q + r) = p^2 + 2pq        + q^2 + 2qr       +2pr     +r^2
+
+    _ = p^2 + q^2 + r^2 + 2*(p * q + p * r + q * r) - 2*(p * q + p * r + q * r) := by ring
+    _ = (p + q + r)*(p + q + r) - 2*(p * q + p * r + q * r) := by ring
+    _ = (0)*(0) - 2*(2) := by rw[h1,h2]
+    _ = -4 := by ring
 
 
 
