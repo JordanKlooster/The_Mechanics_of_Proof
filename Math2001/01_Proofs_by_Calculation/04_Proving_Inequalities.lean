@@ -29,10 +29,33 @@ example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 :=
 
 -- Example 1.4.2
 -- Exercise: replace the words "sorry" with the correct Lean justification.
+-- s + 3 ≥ r   ->   r ≤ s + 3
 example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 :=
   calc
     r = r := by ring
     _ = r := by ring
+
+    _ = (r + r)/2 := by ring
+    _ = (r + r + s -s)/2 := by ring
+    _ = ((s + r) + r -s)/2 := by ring
+
+    -- _ = (s + r + r - s) / 2 := by ring
+    -- _ ≤ (3 + (s + 3) - s) / 2 := by rel[h1,h2] -- use h2 and h1 in reverse
+    -- _ = 3 := by ring
+
+    -- HERE IT IS BROKEN INTO 2 Steps:
+    _ ≤ ((3) + r -s)/2 := by rel[h2]
+    _ ≤ ((3) + (s + 3) -s)/2 := by rel[h1]
+    _ = (3 + 3 + s - s)/2 := by ring
+    _ = (6)/2 := by ring
+    _ = 3 := by ring
+
+    -- _ <= ((3) + r -s)/2 := by rel[h2]
+    -- _ = ((3) + r -(s + 3 -3))/2 := by ring
+    -- _ = (3 + r -(s + 3) + 3)/2 := by ring
+
+    -- _ <= ((3) + r -(r) + 3)/2 := by rel[h1]
+    -- _ <= (3 + r -r + 3)/2 := by ring
 
 
 -- Example 1.4.3
@@ -42,16 +65,30 @@ example {x y : ℝ} (h1 : y ≤ x + 5) (h2 : x ≤ -2) : x + y < 2 :=
     x + y = (x) + (y) := by ring
     _ = (x) + (y) := by ring
 
+    _ <= (x) + (x+5) := by rel[h1]
+    _ <= (-2) + (-2+5) := by rel[h2]
+    _ = 1 := by ring
+    _ < 2 := by numbers
+
 
 
 -- Example 1.4.4
--- Exercise: replace the words "sorry" with the correct Lean justification.
+-- Exercise: uses the rule that inequalities are preserved
+-- under multiplication with a nonnegative constant
 example {u v x y A B : ℝ} (h1 : 0 < A) (h2 : A ≤ 1) (h3 : 1 ≤ B) (h4 : x ≤ B)
     (h5 : y ≤ B) (h6 : 0 ≤ u) (h7 : 0 ≤ v) (h8 : u < A) (h9 : v < A) :
     u * y + v * x + u * v < 3 * A * B :=
   calc
     u*y + v*x + u*v = u*y + v*x  +  u*v := by rfl
     _ = u*y + v*x + u*v := by ring
+
+    -- --goal: < 3 * A * B
+    _ ≤ u*B + v*B + u*v := by rel[h4,h5] -- swap x and y for b
+    _ ≤ A*B + A*B + A*v := by rel[h8,h9]  -- swap Us and Vs for A, (≤ bc v could be 0)
+    _ ≤ A*B + A*B + 1*v := by rel[h2] -- on the right got u < A, A <= 1, 1 <= B,
+    _ ≤ A*B + A*B + B*v := by rel[h3]
+    _ < A*B + A*B + B*A := by rel[h9] -- up til now it could have been == ?
+    _ = 3*A*B := by ring
 
 
 -- Example 1.4.5
@@ -61,6 +98,21 @@ example {t : ℚ} (ht : t ≥ 10) : t ^ 2 - 3 * t - 17 ≥ 5 :=
     t ^ 2 - 3 * t - 17 = t ^ 2 - 3 * t - 17 := by rfl
     _ = t ^ 2 - 3 * t - 17 := by ring
 
+    -- (t -2) ^2 == (t^2 -2t -2t +4)
+    _ = t ^ 2 - 3 * t -t + t +4 -4 - 17 := by ring
+    _ = t^2 - 4*t +4        -21 + t := by ring
+    _ = (t -2)^2     -21 + t := by ring
+    _ ≥ (10 -2)^2  -21 + 10 := by rel[ht] -- made all Ts positive so it preserves ≥
+    _ = (8)^2  -11 := by ring
+    _ = 64  -11 := by ring
+    _ = 53 := by ring
+    _ ≥ 5 := by numbers
+
+    -- _ = (t) ^ 2 - 3 * (t) - 17 := by ring
+    -- _ ≥ (10) ^ 2 - 3 * (t) - 17 := by rel[ht]
+    -- _ = 100 - 3 * t - 17 := by ring
+    -- _ = 100 - 3 * t - 17 := by ring
+
 
 -- Example 1.4.6
 -- Exercise: type out the whole proof printed in the text as a Lean proof.
@@ -69,12 +121,30 @@ example {n : ℤ} (hn : n ≥ 5) : n ^ 2 > 2 * n + 11 :=
     n^2 = n^2 := by rfl
     _ = n^2 := by ring
 
+    -- --goal: > 2 * n + 11
+    _ = n * n := by ring
+    _ ≥ 5 * n := by rel[hn]
+    _ = 2 * n + 3 * n := by ring
+    _ ≥ 2 * n + 3 * 5 := by rel[hn]
+    _ = 2 * n + 15    := by ring
+    _ = 2 * n + 11 + 4    := by ring -- step is needed by  extra  tactic
+    -- _ > 2 * n + 11    := by numbers
+    _ > 2 * n + 11    := by extra
+
+    --incorrect solution book told me to check out:
+    -- _ ≥ 5^2 := by rel[hn]
+    -- _ > 2*5 + 11 := by numbers
+    -- _ ≤ 2*n + 11 := by rel[hn]
 
 -- Example 1.4.7
 example {m n : ℤ} (h : m ^ 2 + n ≤ 2) : n ≤ 2 :=
   calc
     n = n := by rfl
     _ = n := by ring
+
+    -- squares are positive so m^2 >= 0   so can add it to RHS of ≤ thing
+    _ ≤ m^2 + n := by extra
+    _ ≤ 2 := by rel[h]
 
 
 
@@ -85,7 +155,28 @@ example {x y : ℝ} (h : x ^ 2 + y ^ 2 ≤ 1) : (x + y) ^ 2 < 3 :=
     (x + y) ^ 2 = (x + y) ^ 2 := by rfl
     _ = (x + y) ^ 2 := by ring
 
-    -- _ = (x + y) ^ 2 := by ring
+    -- Example 1.3.26 --JK: difference of squares a^2 – b^2 = (a + b) (a – b)
+    _ ≤ (x + y)^2 + (x - y)^2  := by extra
+    _ = (x + y)^2 + (x - y)^2  := by ring
+    _ = x^2 + y^2 +x*y +x*y   + (x - y)*(x - y)  := by ring
+    _ = x^2 + y^2 +x*y +x*y   + x^2 + y^2 -x*y -x*y  := by ring
+    _ = 2*x^2 + 2*y^2  +x*y +x*y          -x*y -x*y  := by ring
+    _ = 2*x^2 + 2*y^2   := by ring
+    _ = 2*(x^2 + y^2)   := by ring
+    _ ≤ 2*(1)   := by rel[h]
+    _ = 2   := by ring
+    _ < 3   := by numbers
+
+    -- 22 333
+
+
+
+    -- _ = x^2 + y^2 +x*y +x*y := by ring
+    -- -- most it could be is 1 for x and y individually
+    -- _ ≤ 1 +x*y +x*y := by rel[h]
+    -- _ = 1 + 2*x*y := by ring
+
+
 
 -- Example 1.4.9
 -- Exercise: replace the words "sorry" with the correct Lean justification.
@@ -94,6 +185,14 @@ example {a b : ℚ} (h1 : a ≥ 0) (h2 : b ≥ 0) (h3 : a + b ≤ 8) :
   calc
     3 * a * b + a = 3 * a * b + a := by rfl
     _ = 3 * a * b + a := by ring
+
+    --goal: ≤ 7 * b + 72
+    _ = 3 * a * b + a := by ring
+    _ ≤ 3 * a * b + a + 2*b^2 := by extra
+    _ ≤ 3 * a * b + a + 2*b^2 +a^2 := by extra
+    _ = 3*a*b + a + 2*b^2 +a^2 := by ring -- TODO EXPAND STUFF
+
+    -- _ = 3 * a * b + a     + 2*b^2 +a^2 := by ring
 
 
 -- Example 1.4.10
