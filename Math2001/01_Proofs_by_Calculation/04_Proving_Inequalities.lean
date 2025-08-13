@@ -190,9 +190,26 @@ example {a b : ℚ} (h1 : a ≥ 0) (h2 : b ≥ 0) (h3 : a + b ≤ 8) :
     _ = 3 * a * b + a := by ring
     _ ≤ 3 * a * b + a + 2*b^2 := by extra
     _ ≤ 3 * a * b + a + 2*b^2 +a^2 := by extra
-    _ = 3*a*b + a + 2*b^2 +a^2 := by ring -- TODO EXPAND STUFF
+    _ = 3*a*b   + a   + 2*b^2 +a^2 := by ring -- TODO EXPAND STUFF
+    _ = 2*a*b + a*b  + a   + 2*b^2 +a^2 := by ring
+    _ = 2*a*b + 2*b^2   + a^2 + a*b   + a := by ring
+    _ = 2 * (a*b + b^2) + a^2 + a*b   + a := by ring
+    _ = 2 * ((a + b) * b) + a^2 + a*b   + a := by ring
+    _ = 2 * ((a + b) * b) + (a + b) * a + a := by ring
 
-    -- _ = 3 * a * b + a     + 2*b^2 +a^2 := by ring
+    _ ≤ 2 * ((8) * b)     + (8) * a + a := by rel[h3]
+    _ = 2 * (8*b)     + 8*a + a := by ring
+    _ = 16*b       + 9*a := by ring
+    _ = 7*b  + 9*b + 9*a := by ring
+    _ = 7*b  + 9*(a + b) := by ring
+
+    _ ≤ 7*b  + 9*(8) := by rel[h3]
+    _= 7*b + 72 := by ring --DONE
+
+
+
+
+
 
 
 -- Example 1.4.10
@@ -202,10 +219,23 @@ example {a b c : ℝ} :
     a ^ 2 * (a ^ 6 + 8 * b ^ 3 * c ^ 3) = a ^ 2 * (a ^ 6 + 8 * b ^ 3 * c ^ 3) := by rfl
     _ = a ^ 2 * (a ^ 6 + 8 * b ^ 3 * c ^ 3) := by ring
 
-    _  ≤ 2 * (a ^ 2 * (b ^ 2 - c ^ 2)) ^ 2 + (b ^ 4 - c ^ 4) ^ 2
-          + 4 * (a ^ 2 * b * c - b ^ 2 * c ^ 2) ^ 2
-          + a ^ 2 * (a ^ 6 + 8 * b ^ 3 * c ^ 3) := by extra
-    _ = (a ^ 4 + b ^ 4 + c ^ 4) ^ 2 := by ring
+    -- goal:  ≤ (a^4 + b^4 + c^4)^2
+    --(a^4 + b^4 + c^4)(a^4 + b^4 + c^4)
+    --a^8 + a^4b^4 + a^4c^4   + a^4b^4 + b^8 + b^4c^4   + a^4c^4 + b^4c^4 + c^8
+    --a^8 +b^8 +c^8 +2a^4b^4 +2a^4c^4 +2b^4c^4
+
+    _ = a^2 * (a^6 + 8*b^3 *c^3) := by ring
+    _ = a^8 + 8*a^2*b^3*c^3 := by ring
+
+
+
+
+
+
+    -- _  ≤ 2 * (a ^ 2 * (b ^ 2 - c ^ 2)) ^ 2 + (b ^ 4 - c ^ 4) ^ 2
+    --       + 4 * (a ^ 2 * b * c - b ^ 2 * c ^ 2) ^ 2
+    --       + a ^ 2 * (a ^ 6 + 8 * b ^ 3 * c ^ 3) := by extra
+    -- _ = (a ^ 4 + b ^ 4 + c ^ 4) ^ 2 := by ring
 
 
 /-! # Exercises
