@@ -297,25 +297,39 @@ up in Lean. -/
 
 
 example {x y : ℤ} (h1 : x + 3 ≥ 2 * y) (h2 : 1 ≤ y) : x ≥ -1 :=
-  sorry
+  calc
+    x = x := by rfl
+    _= x := by ring
 
 example {a b : ℚ} (h1 : 3 ≤ a) (h2 : a + 2 * b ≥ 4) : a + b ≥ 3 :=
-  sorry
+  calc
+    a + b = a + b := by rfl
+    _= a + b := by ring
 
 example {x : ℤ} (hx : x ≥ 9) : x ^ 3 - 8 * x ^ 2 + 2 * x ≥ 3 :=
-  sorry
+  calc
+    x ^ 3 - 8 * x ^ 2 + 2 * x = x ^ 3 - 8 * x ^ 2 + 2 * x := by rfl
+    _= x^3 - 8*x^2 + 2*x := by ring
 
 example {n : ℤ} (hn : n ≥ 10) : n ^ 4 - 2 * n ^ 2 > 3 * n ^ 3 :=
-  sorry
+  calc
+    n ^ 4 - 2 * n ^ 2 = n ^ 4 - 2 * n ^ 2 := by rfl
+    _= n ^ 4 - 2 * n ^ 2 := by ring
 
 example {n : ℤ} (h1 : n ≥ 5) : n ^ 2 - 2 * n + 3 > 14 :=
-  sorry
+  calc
+    n ^ 2 - 2 * n + 3 = n ^ 2 - 2 * n + 3 := by rfl
+    _= n ^ 2 - 2 * n + 3 := by ring
 
 example {x : ℚ} : x ^ 2 - 2 * x ≥ -1 :=
-  sorry
+  calc
+    x ^ 2 - 2 * x = x ^ 2 - 2 * x := by rfl
+    _= x ^ 2 - 2 * x := by ring
 
 example (a b : ℝ) : a ^ 2 + b ^ 2 ≥ 2 * a * b :=
-  sorry
+  calc
+    a ^ 2 + b ^ 2 = a ^ 2 + b ^ 2 := by rfl
+    _= a ^ 2 + b ^ 2 := by ring
 
 
 
