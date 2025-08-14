@@ -225,7 +225,59 @@ example {a b c : ℝ} :
     --a^8 +b^8 +c^8 +2a^4b^4 +2a^4c^4 +2b^4c^4
 
     _ = a^2 * (a^6 + 8*b^3 *c^3) := by ring
-    _ = a^8 + 8*a^2*b^3*c^3 := by ring
+    -- _ = a^8 + 8*a^2*b^3*c^3 := by ring
+
+    _ ≤ 2 * (a^2 * (b^2 - c^2))^2
+          + (b^4 - c^4)^2
+          + 4*(a^2*b*c - b^2*c^2)^2
+          + a^2 * (a^6 + 8*b^3*c^3) := by extra
+
+    _ = 2 * (a^2*b^2 - a^2*c^2)^2 -- distributed a^2
+          + (b^4 - c^4)^2
+          + 4*(a^2*b*c - b^2*c^2)^2
+          + a^2 * (a^6 + 8*b^3*c^3)  := by ring
+
+    _ = 2 * (a^2*b^2 - a^2*c^2)*(a^2*b^2 - a^2*c^2) --expanded to ()*()
+          + (b^4 - c^4)*(b^4 - c^4)                 --expanded to ()*()
+          + 4*(a^2*b*c - b^2*c^2)*(a^2*b*c - b^2*c^2)--expanded to ()*()
+          + a^2 * (a^6 + 8*b^3*c^3)  := by ring
+
+    _ = 2 * (a^4*b^4 - 2*a^4*b^2*c^2 + a^4*c^4) --foil
+          + (b^8 - 2*b^4*c^4 + c^8)                 --foil
+          + 4*(a^4*b^2*c^2 - 2*a^2*b^3*c^3 + b^4*c^4)--foil
+          + a^2 * (a^6 + 8*b^3*c^3)  := by ring
+
+    _ = 2*a^4*b^4 - 4*a^4*b^2*c^2 + 2*a^4*c^4 --distributed 2*
+          + b^8 - 2*b^4*c^4 + c^8
+          + 4*a^4*b^2*c^2 - 8*a^2*b^3*c^3 + 4*b^4*c^4--distributed 4*
+          + a^8 + 8*a^2*b^3*c^3  := by ring --distributed a^2
+
+    _ =     2*a^4*b^4 --grouped like terms
+          + 2*a^4*c^4
+          + b^8
+          + c^8
+          + a^8
+
+          + 4*b^4*c^4
+          - 2*b^4*c^4
+
+          + 4*a^4*b^2*c^2
+          - 4*a^4*b^2*c^2
+
+          + 8*a^2*b^3*c^3
+          - 8*a^2*b^3*c^3
+           := by ring
+
+    _ =     a^8 --collapsed + and - terms, rearanged
+          + b^8
+          + c^8
+
+          + 2*a^4*b^4
+          + 2*a^4*c^4
+          + 2*b^4*c^4
+           := by ring
+
+    _ = (a^4 + b^4 + c^4)^2 := by ring
 
 
 
