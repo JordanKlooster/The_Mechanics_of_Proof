@@ -23,22 +23,29 @@ example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
 
 
 example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
-  have h3 : r ≤ 3 + s := by sorry -- justify with one tactic
-  have h4 : r ≤ 3 - s := by sorry -- justify with one tactic
+  have h3 : r ≤ 3 + s := by addarith[h1] -- justify with one tactic
+  have h4 : r ≤ 3 - s := by addarith[h2] -- justify with one tactic
   calc
-    r = (r + r) / 2 := by sorry -- justify with one tactic
-    _ ≤ (3 - s + (3 + s)) / 2 := by sorry -- justify with one tactic
-    _ = 3 := by sorry -- justify with one tactic
+    r = (r + r) / 2 := by ring -- justify with one tactic
+    _ ≤ (3 - s + (3 + s)) / 2 := by rel[h3,h4] -- justify with one tactic
+    _ = 3 := by ring -- justify with one tactic
 
 example {t : ℝ} (h1 : t ^ 2 = 3 * t) (h2 : t ≥ 1) : t ≥ 2 := by
   have h3 :=
   calc t * t = t ^ 2 := by ring
     _ = 3 * t := by rw [h1]
-  cancel t at h3
+  cancel t at h3 -- goes from t*t = 3*t  to t = 3
   addarith [h3]
 
 
+
 example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
+  -- have h3 :=
+
+  -- b^2 = a^2 -1 --JK: Here's my process
+  -- _ = 0 -1 rel[h2]
+  -- _ = -1 ring but b^2 is squared so it's positive, so a has to be at least 2
+
   have h3 :=
   calc
     a ^ 2 = b ^ 2 + 1 := by rw [h1]
@@ -67,3 +74,45 @@ example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
 
 example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
   sorry
+
+
+
+
+
+-- example {t : ℝ} (h1 : t ^ 2 = 3 * t) (h2 : t ≥ 1) : t ≥ 2 := by
+--   have h3 :=
+--   calc t * t = t ^ 2 := by ring
+--     _ = 3 * t := by rw [h1]
+--   cancel t at h3
+--   addarith [h3]
+
+
+-- example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
+--   have h3 :=
+--   calc
+--     a ^ 2 = b ^ 2 + 1 := by rw [h1]
+--     _ ≥ 1 := by extra
+--     _ = 1 ^ 2 := by ring
+--   cancel 2 at h3
+
+
+-- example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
+--   sorry
+
+-- example (a b : ℝ) (h1 : -b ≤ a) (h2 : a ≤ b) : a ^ 2 ≤ b ^ 2 := by
+--   sorry
+
+-- example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
+--   sorry
+
+-- /-! # Exercises -/
+
+
+-- example {x : ℚ} (h1 : x ^ 2 = 4) (h2 : 1 < x) : x = 2 := by
+--   sorry
+
+-- example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
+--   sorry
+
+-- example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
+--   sorry
