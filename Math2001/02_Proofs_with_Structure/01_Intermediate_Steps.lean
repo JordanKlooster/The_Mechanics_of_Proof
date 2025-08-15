@@ -44,14 +44,22 @@ example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
 
   -- b^2 = a^2 -1 --JK: Here's my process
   -- _ = 0 -1 rel[h2]
-  -- _ = -1 ring but b^2 is squared so it's positive, so a has to be at least 2
+  -- _ = -1 ring but b^2 is squared so it's positive, so a^2 has to be at least 1
+  -- and this  a  has to be at least 1
 
   have h3 :=
   calc
-    a ^ 2 = b ^ 2 + 1 := by rw [h1]
-    _ ≥ 1 := by extra
-    _ = 1 ^ 2 := by ring
-  cancel 2 at h3
+    a ^ 2 = a ^ 2  := by rfl
+    _ = a^2  := by ring
+
+    _ = b^2 + 1 := by rw [h1]
+    _ ≥ 1 := by extra  -- a^2 >= b^2 +1  so  a^2 >= b^2 +1 - b^2 because b^2 is >=0
+    _ = 1 ^ 2 := by ring -- 1 == 1^2
+  cancel 2 at h3 --cancel the squares
+
+  -- OK, I think I got a better grasp of extra
+  -- can take away from the smaller side or add to the bigger side
+  -- if you know the sign, (>=0 or <=0) and x^2 is a way to do that
 
 
 example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
