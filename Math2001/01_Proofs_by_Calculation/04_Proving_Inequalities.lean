@@ -301,20 +301,69 @@ example {x y : ℤ} (h1 : x + 3 ≥ 2 * y) (h2 : 1 ≤ y) : x ≥ -1 :=
     x = x := by rfl
     _= x := by ring
 
+    _= x +3 -3 := by ring
+    _≥ 2*y -3 := by rel[h1]
+    _≥ 2*1 -3 := by rel[h2]
+    _= 2-3 := by ring
+    _= -1 := by ring
+
 example {a b : ℚ} (h1 : 3 ≤ a) (h2 : a + 2 * b ≥ 4) : a + b ≥ 3 :=
   calc
     a + b = a + b := by rfl
     _= a + b := by ring
+
+    _= 2*a/2 + b := by ring
+    _= a/2 + a/2+ b := by ring
+    _= a/2 + (a+ 2*b)/2 := by ring
+    _≥ a/2 + (4)/2 := by rel[h2]
+    _≥ 3/2 + (4)/2 := by rel[h1]
+    _= 7/2 := by ring
+    _≥ 3 := by numbers
 
 example {x : ℤ} (hx : x ≥ 9) : x ^ 3 - 8 * x ^ 2 + 2 * x ≥ 3 :=
   calc
     x ^ 3 - 8 * x ^ 2 + 2 * x = x ^ 3 - 8 * x ^ 2 + 2 * x := by rfl
     _= x^3 - 8*x^2 + 2*x := by ring
 
+    _= x^3 - 8*x^2 + 2*x := by ring
+    _= x*(x^2 - 8*x + 2) := by ring
+    _= x*(x*(x - 8) + 2) := by ring -- just try to pull Xs out of stuff
+    _≥ 9*(9*(9 - 8) + 2) := by rel[hx]
+    _= 9*(9 + 2) := by ring
+    _= 9*(11) := by ring
+    _= 99 := by ring
+    _>= 3 := by numbers
+
+    -- _= x*(x^2 - 8*x + 2 +14 -14) := by ring
+    -- _= x*(x^2 - 8*x + 16 -14) := by ring
+    -- _= x*(x^2 - 8*x + 16) -14*x := by ring
+    -- _= x*(x - 4)^2 -14*x := by ring
+
+    -- _≥ x*(x - 4)^2 -14*(9) := by rel[hx] --NOPE
+
+    -- _= x^3 - 8*x^2 + 2*x := by ring
+
+    -- _≥ x^3 - 8*x^2 + 2*x +(4*x)^2 := by extra -- NOPE, it's <=
+
 example {n : ℤ} (hn : n ≥ 10) : n ^ 4 - 2 * n ^ 2 > 3 * n ^ 3 :=
   calc
     n ^ 4 - 2 * n ^ 2 = n ^ 4 - 2 * n ^ 2 := by rfl
     _= n ^ 4 - 2 * n ^ 2 := by ring
+
+    -- goal: > 3*n^3
+    _= n^4 - 2*n^2 := by ring
+    _= n^4 - n^2 -n^2 + 1 -1 := by ring
+    _= (n^4 - n^2 -n^2 + 1) -1 := by ring
+    _= (n^2 -1)^2 -1 := by ring
+
+    -- _= n^2*n^2 - 2*n^2 := by ring
+
+    -- _= n^2*(n^2 - 2) := by ring
+    -- _= n^2*(n*n - 2) := by ring
+    -- _≥ n^2*(10*10 - 2) := by rel[hn]
+    -- _= n^2*(98) := by ring
+
+    -- _= n*(n^3 - 2*n) := by ring
 
 example {n : ℤ} (h1 : n ≥ 5) : n ^ 2 - 2 * n + 3 > 14 :=
   calc
