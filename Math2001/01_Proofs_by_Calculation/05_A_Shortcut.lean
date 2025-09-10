@@ -23,4 +23,4 @@ example {m n : ℝ} (h1 : m ≤ 8 - n) : 10 > m + n := by addarith [h1]
 
 -- Check that `addarith` can't verify this deduction!
 -- example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := sorry
-example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := addarith[h1]
+-- example {w : ℚ} (h1 : 3 * w + 1 = 4) : w = 1 := addarith[h1] -- uncommment to check that it doesn't work
