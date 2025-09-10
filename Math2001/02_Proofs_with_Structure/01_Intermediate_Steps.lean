@@ -227,7 +227,7 @@ example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
     -- y = y := by ring
     -- _ = y := by ring
     -- -- _ ≤ y*x := by rel[h2,h3]
-    -- _ ≤ y*x := by extra
+    -- _ ≤ y*x := by extra    -- I was stuck here a bit too long -jk
     -- -- _ ≤ y*x := by tac
     -- _ = x * y := by ring
     -- _ = 1 := by rw[h]
