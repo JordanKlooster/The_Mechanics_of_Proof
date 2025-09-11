@@ -100,7 +100,13 @@ example {s : ℚ} (h1 : 3 * s ≤ -6) (h2 : 2 * s ≥ -4) : s = -2 := by
     s = s := by ring
     _ = s := by ring
     _ = (3 * s)/3 := by ring
-    _ ≥ (-6)/3 := by rw[h1]
+    _ ≤ (-6)/3 := by rel[h1]
+    _ = -2 := by ring
+  calc
+    s = s := by ring
+    _ = s := by ring
+    _ = (2 * s)/2 := by ring
+    _ ≥ (-4)/2 := by rel[h2]
     _ = -2 := by ring
 
     -- _ = s + 2* s - 2 * s := by ring
