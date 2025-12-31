@@ -4,6 +4,35 @@ import Library.Basic
 
 math2001_init
 
+--TRYING to find a proof before hearing the answer
+--  When a complicated proof simplifies everything https://www.youtube.com/watch?v=MhJN9sByRS0
+example {b n k : ℕ} : b ^ n - 1 = (b-1) * k := by
+  have hn := le_or_succ_le n 1
+  obtain hn | hn := hn
+  apply ne_of_lt
+  calc
+    n ^ 2 ≤ 1 ^ 2 := by rel [hn]
+    _ < 2 := by numbers
+  sorry
+
+
+  --3^2 -1 = 9-1 = 8 = 2*4
+  --3^3 -1 = 27-1 = 26 = 2*13                          13 is 4 * 3 + 1
+  --3^4 -1 = 81-1 = 80 = 2*40, 4*20, 8*10
+  --3^5 -1 = 243-1 = 242 = 2*121, 2*11*11
+
+  --4^2 -1 = 16-1 = 15      = 3 * 5 , 3 = 4-1
+  --4^3 -1 = 64-1 = 63      = 3 * 21, 9 * 7 , 3 = 4-1         21 is 4 * 5 + 1
+  --4^4 -1 = 256-1 = 255    = 3 * 85, 3 * 5 * 17 , 3 = 4-1    85 is 4 * 21 + 1
+  --4^5 -1 = 1024-1 = 1023  = 3 * 341, 3 * 11 * 31 , 3 = 4-1  341 = 4 * 85 + 1
+
+  --5^2 -1 = 25-1 = 24 = 4*6 , 3 = 4-1
+  --5^3 -1 = 125-1 = 124 = 4 * 31,                       31 is 5*6 + 1
+  --5^4 -1 = 625-1 = 624 = 4 * 156, 3 * 5 * 17 , 3 = 4-1      156 is 31 * 5 + 1
+  --5^5 -1 = 3125-1 = 3124 = 4 * 781, 3 * 11 * 31 , 3 = 4-1    781 is 5 * 156 + 1
+
+
+
 
 example {x y : ℝ} (h : x = 1 ∨ y = -1) : x * y + x = y + 1 := by
   obtain hx | hy := h

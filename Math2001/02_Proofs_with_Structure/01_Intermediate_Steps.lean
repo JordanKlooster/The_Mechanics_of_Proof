@@ -4,6 +4,101 @@ import Library.Basic
 
 math2001_init
 
+
+
+--Let a and b be real numbers and suppose that a-5b = 4 and b+2 = 3
+-- Show that a = 9
+-- example 2.1.1
+example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
+  sorry
+
+
+-- 2.1.2
+example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
+  sorry
+
+-- 2.1.3
+example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
+  sorry
+
+
+--2.1.4
+example {t : ℝ} (h1 : t ^ 2 = 3 * t) (h2 : t ≥ 1) : t ≥ 2 := by
+  sorry
+
+
+--2.1.5
+example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
+  sorry
+
+  -- OK, I think I got a better grasp of extra
+  -- can take away from the smaller side or add to the bigger side
+  -- if you know the sign, (>=0 or <=0) and x^2 is a way to do that
+
+
+
+
+
+
+
+
+
+--2.1.6 -- completed by Jordan Kloosterman
+example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
+  sorry
+
+
+
+
+--2.1.7 -- magnitude of a is smaller than or = to magnitude of b, and b is > 0
+example (a b : ℝ) (h1 : -b ≤ a) (h2 : a ≤ b) : a ^ 2 ≤ b ^ 2 := by
+  sorry
+
+
+--2.1.8
+example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
+  sorry
+
+
+
+
+/-! # Exercises -/
+
+--2.1.9
+--1.
+example {x : ℚ} (h1 : x ^ 2 = 4) (h2 : 1 < x) : x = 2 := by
+  sorry
+
+--2.
+example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
+  sorry
+
+--3.                    y = 1/x   x = 1/y
+example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
+  sorry
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 --Let a and b be real numbers and suppose that a-5b = 4 and b+2 = 3
 -- Show that a = 9
 -- example 2.1.1

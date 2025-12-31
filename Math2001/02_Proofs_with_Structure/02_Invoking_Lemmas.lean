@@ -4,33 +4,50 @@ import Library.Basic
 
 math2001_init
 
+
 -- 2.2.1
 example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
-  apply ne_of_lt
-  calc
-    x = 3 * x / 3 := by ring
-    _ = 2 / 3 := by rw [hx]
-    _ < 1 := by numbers
+  calc 
 
 
 -- 2.2.2
 example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
-  apply ne_of_gt
-  calc
-    0 = 0 := by ring
-    _ < 0 + y^2 + 1 := by extra
-    _ = y^2 + 1 := by ring
+  sorry
 
 
 
 
 -- 2.2.3
 example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
-  apply le_antisymm
-  calc
-    a ^ 2 ≤ a^2 + b^2 := by extra
-    _     = 0   := h1 --a ^ 2 ≤ 0  goal 1
-  extra               --0 ≤ a ^ 2  goal 2
+  sorry
+
+-- -- 2.2.1
+-- example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
+--   apply ne_of_lt
+--   calc
+--     x = 3 * x / 3 := by ring
+--     _ = 2 / 3 := by rw [hx]
+--     _ < 1 := by numbers
+
+
+-- -- 2.2.2
+-- example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
+--   apply ne_of_gt
+--   calc
+--     0 = 0 := by ring
+--     _ < 0 + y^2 + 1 := by extra
+--     _ = y^2 + 1 := by ring
+
+
+
+
+-- -- 2.2.3
+-- example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
+--   apply le_antisymm
+--   calc
+--     a ^ 2 ≤ a^2 + b^2 := by extra
+--     _     = 0   := h1 --a ^ 2 ≤ 0  goal 1
+--   extra               --0 ≤ a ^ 2  goal 2
 
 
 /-! # Exercises -/
