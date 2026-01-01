@@ -9,28 +9,80 @@ math2001_init
 --Let a and b be real numbers and suppose that a-5b = 4 and b+2 = 3
 -- Show that a = 9
 -- example 2.1.1
+example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := --by
+have hb := -- doesn't state hb endgoal
+  calc
+    _ = b := by rfl
+    _ = b -3 + 3 := by ring
+    _ = b -(b+2) + 3 := by rw[h2]
+    _ = -2 + 3 := by ring
+    _ = 1 := by ring
+  calc
+    a = a := by rfl
+    _ = a := by rfl
+    _ = a -5*b + 5*b := by ring
+    _ = 4      + 5*1 := by rw[h1, hb]
+    _ = 4      + 5 := by ring
+    _ = 9 := by ring
+
+--version stating hb endgoal
 example {a b : ℝ} (h1 : a - 5 * b = 4) (h2 : b + 2 = 3) : a = 9 := by
-  sorry
+  have hb : b = 1 := by calc
+    _ = b := by rfl
+    _ = b -3 + 3 := by ring
+    _ = b -(b+2) + 3 := by rw[h2]
+    _ = -2 + 3 := by ring
+    _ = 1 := by ring
+  calc
+    a = a := by rfl
+    _ = a := by rfl
+    _ = a -5*b + 5*b := by ring
+    _ = 4      + 5*1 := by rw[h1, hb]
+    _ = 4      + 5 := by ring
+    _ = 9 := by ring
+
 
 
 -- 2.1.2
 example {m n : ℤ} (h1 : m + 3 ≤ 2 * n - 1) (h2 : n ≤ 5) : m ≤ 6 := by
-  sorry
+  have h3 :=
+  calc
+    m + 3 <= 2*n - 1 := by rel[h1]
+    _ <= 2*5 - 1 := by rel[h2]
+    _ = 10 - 1 := by ring
+    _ = 9 := by ring
+  addarith[h3]
+
 
 -- 2.1.3
 example {r s : ℚ} (h1 : s + 3 ≥ r) (h2 : s + r ≤ 3) : r ≤ 3 := by
-  sorry
+  have h3 : r ≤ 3 + s := by addarith[h1]
+  have h4 : r ≤ 3 - s := by addarith[h2]
+  calc
+    r = (r + r) / 2 := by ring
+    _ <= (3 - s + (3 + s))/2 := by rel[h3,h4]
+    _ = 6/2 := by ring
+    _ = 3 := by ring
 
 
 --2.1.4
 example {t : ℝ} (h1 : t ^ 2 = 3 * t) (h2 : t ≥ 1) : t ≥ 2 := by
-  sorry
-
+  have h3 :=
+  calc t*t = t*t := by rfl
+    _ = t^2 := by ring
+    _ = 3*t := by rw[h1]
+  cancel t at h3
+  addarith[h3]
 
 --2.1.5
 example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
-  sorry
-
+  have h3 :=
+  calc
+    a^2 = a^2 := by rfl
+    _ = b^2 + 1 := by rw[h1]
+    _ ≥       1 := by extra -- extra:  remove a non-negative thing, and it's ≥
+    _ = 1 ^ 2 := by ring
+  cancel 2 at h3 -- cancelc the squaring
   -- OK, I think I got a better grasp of extra
   -- can take away from the smaller side or add to the bigger side
   -- if you know the sign, (>=0 or <=0) and x^2 is a way to do that
@@ -45,19 +97,87 @@ example {a b : ℝ} (h1 : a ^ 2 = b ^ 2 + 1) (h2 : a ≥ 0) : a ≥ 1 := by
 
 --2.1.6 -- completed by Jordan Kloosterman
 example {x y : ℤ} (hx : x + 3 ≤ 2) (hy : y + 2 * x ≥ 3) : y > 3 := by
-  sorry
-
-
+  have h1 :=
+  calc
+    x = x := by rfl
+    _ = x + 3 - 3 := by ring
+    _ ≤ 2 - 3 := by rel[hx]
+    _ = -1 := by ring
+  calc
+    y = y := by rfl
+    _ = y + 2*x - 2*x := by ring
+    _ ≥ 3       - 2*x := by rel[hy]
+    _ ≥ 3       - 2*-1 := by rel[h1]
+    _ = 3       + 2 := by ring
+    _ = 5 := by ring
+    _ > 3 := by numbers
 
 
 --2.1.7 -- magnitude of a is smaller than or = to magnitude of b, and b is > 0
+-- hint seems to be about dif of squares
 example (a b : ℝ) (h1 : -b ≤ a) (h2 : a ≤ b) : a ^ 2 ≤ b ^ 2 := by
-  sorry
+  have h3 :=
+  -- calc (b + a)*(b - a) = (b + a)*(b - a) := by rfl
+  --   _ = b^2 + a*b -a*b - a^2 := by ring -- this is non-negative
+  --   _ = b^2 - a^2 := by ring -- this is non-negative
+  calc
+    0 = 0 := by rfl
+    _ = b - b := by ring
+    _ = b + (-b) := by ring -- annoying that I need this step
+    _ ≤ b + a := by rel[h1]
+  have h4 :=
+  calc
+    0 = 0 := by rfl
+    _ = a - a := by ring
+    _ = a + (-a) := by ring
+    _ ≤ b + (-a) := by rel[h2]
+  calc
+    a^2 = a^2 := by rfl
+    _ ≤ a^2 + (b + a)*(b - a) := by extra -- can add it because non-neg, proved with h3,h4
+    _ = a^2 + b^2 - a^2 := by ring
+    _ = b^2 := by ring
 
 
---2.1.8
+
+
+
+--2.1.8 -- could this be done in cases, for if a is +- and b is +-
+-- a+ and b+, magnitudes just increase relative to size & b is bigger
+-- a+ and b - can be skipped over, trivial
+-- a- stays -, b+ stays + easy
+-- a- and b- means b has magnitude < a and that's just flipped version of ++ case
+-- or do the magnitiudes (bot + case) then show
 example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
-  sorry
+  have h1:=
+  calc
+    0 = 0 := by rfl
+    _ = b - b := by ring
+    _ ≤ b - a := by rel[h] -- subtracting a smaller number is allowed
+  calc
+    a^3 = a^3 := by rfl
+    _ = a^3 := by rfl
+    -- _ = a^3 - (b-a) := by rel[h1]
+    -- turn a^3 into b^3 through inequality
+    -- start with endgoal and work back
+    -- _ ≤ b ^ 3 := by rel[h1] -- make use of (b-a) >= 0 and (b+a)^2 >= 0
+    -- _ ≤ bbb := by rel[h1]
+    -- need -a^3 and +b^3
+
+
+
+
+
+    _ ≤ a^3 + ((b-a)*((b-a)^2 + 3*(b+a)^2 ))/4:= by extra --it's non negative so I can add it to RS of <=
+    _ = a^3 + ((b-a)*(b^2 -2*a*b + a^2 + 3*(b+a)^2 ))/4:= by ring
+    _ = a^3 + ((b-a)*(b^2 -2*a*b + a^2 + 3*(b^2 +2*a*b + a^2) ))/4:= by ring
+    _ = a^3 + ((b-a)*(b^2 -2*a*b + a^2 + 3*b^2 +6*a*b + 3*a^2 ))/4:= by ring
+    _ = a^3 + ((b-a)*(    -2*a*b + a^2 + 4*b^2 +6*a*b + 3*a^2 ))/4:= by ring
+    _ = a^3 + (((b-a)*b^2 -(b-a)*2*a*b + (b-a)*a^2 + (b-a)*3*b^2 +(b-a)*6*a*b + (b-a)*3*a^2 ))/4:= by ring
+    _ = a^3 + ((4*b^3 - 4*a*b^2 -2*a*b^2 + 2*a^2*b + a^2*b + 6*a*b^2 -6*a^2*b + 3*a^2*b -4*a^3 ))/4:= by ring
+    _ = a^3 + b^3 -a^3 + (- 6*a*b^2           + 6*a^2*b    + 6*a*b^2 -6*a^2*b           )/4:= by ring
+    _ = b^3 + ( (6- 6)*a^2*b    + (6-6)*a*b^2            )/4:= by ring
+    _ = b^3 + ( 0)/4:= by ring
+    _ = b^3 := by ring
 
 
 
@@ -67,15 +187,66 @@ example (a b : ℝ) (h : a ≤ b) : a ^ 3 ≤ b ^ 3 := by
 --2.1.9
 --1.
 example {x : ℚ} (h1 : x ^ 2 = 4) (h2 : 1 < x) : x = 2 := by
-  sorry
+  have h3 :=
+  calc
+    x* (x+2) = x* (x+2) := by ring
+    _ = x^2 + 2*x := by ring
+    -- _ = x*x + 2*x := by ring
+    -- _ = x := by ring
+    _ = 4 + 2*x := by rw[h1]
+    _ = 2*2 + 2*x := by ring
+    _ = 2*(x+2) := by ring
+  cancel (x+2) at h3
+    -- 0 = 0 := by rfl
+    -- _ = 1 -1 := by ring
+    -- _ > 1 - 1 := by rel[h2]
+
 
 --2.
 example {n : ℤ} (hn : n ^ 2 + 4 = 4 * n) : n = 2 := by
-  sorry
+  have h1 :=
+  calc
+    0 = 0 := by rfl
+    _ = n^2 + 4 -(n^2 + 4) := by ring
+    _ = n^2 + 4 -(4*n) := by rw[hn]
+    _ = (n-2)*(n-2) := by ring
+    _ = (n-2)^2 := by ring
+  have h2 :=
+  calc
+    (n-2)^2 = (n-2)^2 := by rfl
+    _ = (n-2)*(n-2) := by ring
+    _ = n^2 + 4 -(4*n) := by ring
+    _ = n^2 + 4 -(n^2 + 4) := by rw[hn]
+    _ = 0 := by ring
+  -- cancel (↑2) at h1 -- why does this not work?
+  cancel (↑2) at h2
+  addarith[h2]
+    -- n = n := by rfl
+    -- _ = n + 0 := by ring
+    -- _ = n + (n-2)^2 := by rw[h1]
+    -- _ =
+  -- n^2 - 4n + 4 = 0
+  -- (n+2)(n+2) = 0
 
 --3.                    y = 1/x   x = 1/y
 example (x y : ℚ) (h : x * y = 1) (h2 : x ≥ 1) : y ≤ 1 := by
-  sorry
+  have h3 :=
+  calc
+    0 = 0 := by rfl
+    _ < x * y := by extra
+  cancel x at h3
+  calc
+    y = y := by ring
+    _ = y * 1 := by ring
+    _ ≤ y * x := by rel[h2]
+    _ = x * y := by ring
+    _ = 1 := by rw[h]
+    -- _ =
+    -- _ = y*1 := by ring
+    -- _ = y*1/1 := by ring
+    -- _ = y*x/x := by ring
+    -- _ = x*y/x := by ring
+    -- _ = 1 /x := by rw[h]
 
 
 

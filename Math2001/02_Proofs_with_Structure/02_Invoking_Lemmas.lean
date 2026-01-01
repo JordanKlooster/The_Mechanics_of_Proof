@@ -7,19 +7,85 @@ math2001_init
 
 -- 2.2.1
 example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
-  calc 
+  apply ne_of_lt
+  calc
+    x = x := by rfl
+    _ = x := by rfl
+    _ = 3 * x / 3 := by ring
+    _ = 2 / 3 := by rw[hx]
+    _ < 1 := by numbers
 
 
 -- 2.2.2
 example {y : ℝ} : y ^ 2 + 1 ≠ 0 := by
-  sorry
+  apply ne_of_gt
+  calc
+    0 = 0 := by rfl
+    _ <= 0 + y^2 := by extra
+    _ < 0 + y^2 + 1 := by extra
+    _ = y^2 + 1 := by ring
+
 
 
 
 
 -- 2.2.3
 example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
-  sorry
+  apply le_antisymm
+  calc
+    a^2 = a^2 := by rfl
+    _ <= a^2 + b^2 := by extra
+    _ = 0 := by rw[h1]
+    -- _ = 0 := h1
+  -- extra -- this alone does the calc below
+  calc
+    0 = 0 := by rfl
+    _ <= a^2 := by extra
+
+
+-- exercises
+-- 2.2.4.1
+example {m : ℤ} (hm : m + 1 = 5) : 3 * m ≠ 6 := by
+  have h1 :=
+  calc
+    m = m := by rfl
+    _ = m + 1 - 1 := by ring
+    _ = 5 - 1 := by rw[hm]
+    _ = 4 := by ring
+  apply ne_of_gt
+  calc
+    3*m = 3*m := by rfl
+    _ = 3*4 := by rw[h1]
+    _ = 12 := by ring
+    _ > 6 := by numbers
+
+    -- 6 = 6 := by rfl
+    -- _ < 6 + 6 := by extra
+    -- _ = 12 := by ring
+    -- _ = 4+4+4 := by ring
+    -- _ = m+m+m := by rw[h1] -- for some reason this or reverse wasn't working
+
+    -- _ = 3*(4) := by ring
+    -- _ = 3*(m) := by rw[h1]
+    -- _ = 3*(m+1) -3  := by rw[hm]
+    -- _ = 3*(m+1) -3  := by rw[hm]
+
+
+-- 2.2.4.2
+example {s : ℚ} (h1 : 3 * s ≤ -6) (h2 : 2 * s ≥ -4) : s = -2 := by
+  apply le_antisymm
+  calc
+    s = s := by rfl
+    _ = (3*s)/3 := by ring
+    _ ≤ (-6)/3 := by rel[h1]
+    _ = -2 := by ring
+  calc
+    s = s := by rfl
+    _ = (2*s)/2 := by ring
+    _ ≥ (-4)/2 := by rel[h2]
+    _ = -2 := by ring
+
+
 
 -- -- 2.2.1
 -- example {x : ℚ} (hx : 3 * x = 2) : x ≠ 1 := by
@@ -53,7 +119,7 @@ example {a b : ℝ} (h1 : a ^ 2 + b ^ 2 = 0) : a ^ 2 = 0 := by
 /-! # Exercises -/
 
 example (a b c : Nat) : a + b + c = a + c + b := by
-  rw [Nat.add_assoc, Nat.add_comm b, ← Nat.add_assoc]
+  rw [Nat.add_assoc, Nat.add_comm b, ← Nat.add_assoc
 
 example (a b c : Nat) : a + b + c = a + c + b := by
   rw [Nat.add_assoc, Nat.add_assoc, Nat.add_comm b]
